@@ -1,0 +1,27 @@
+/* CSS DE LOS HTML */
+body{
+    max-width: 1568px;
+    min-width: 768px;
+    margin: auto;
+    height: auto;
+    padding: 10px;
+}
+#nav_menu{
+	display:inline;
+}
+/* TITULO DE LA PAGINA */
+h1{
+	margin:2%;
+	text-align:center;
+}
+/* TABLA DE INFORMACION */
+table{
+	width:500px;
+}
+
+/* INPUT PARA LA BUSQUEDA POR ID */
+#searchID{
+	width:400px;
+	right:500px;
+	display:inline-flex;
+}

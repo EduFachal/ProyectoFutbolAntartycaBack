@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="../styles.css">
+    <title>Equipos</title>
+  </head>
+  <body>
+  <div class="pos-f-t">
+  <div class="collapse" id="navbarToggleExternalContent">
+    <div class="bg-dark navbar-nav mr-auto">
+    	<ul class="navbar-nav mr-auto" id="nav_menu">
+    		<li class="nav-item"><a class="nav-link" th:href="@{/show/equipos}">Equipos</a></li>
+      		<li class="nav-item"><a class="nav-link" th:href="@{/show/jugadores}">Jugadores</a></li>
+      		<li class="nav-item"><a class="nav-link" th:href="@{/ciudades}">Ciudades</a></li>
+      		<li class="nav-item"><a class="nav-link" th:href="@{/torneos}">Torneos</a></li>
+      	</ul>
+    </div>
+  </div>
+  <nav class="navbar navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+</div>
+  <h1 th:text="${title}"></h1>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+        	<th scope="col"> Id  </th>
+            <th scope="col"> Nombre  </th>
+            <th scope="col"> Direccion </th>
+            <th scope="col"> Fecha de fundación </th>
+        </tr>
+    </thead>
+    <tbody>
+	<!-- <tr th:if="${teams.empty || teams == null}">
+            <td colspan="2"> No hay equipos </td>
+    </tr> 
+    <tr th:if="${!teams.empty}" >-->
+      <tr th:each="team : ${teams}">
+      		<td><span th:text="${team.cod_equipo}"> ID del equipo </span></td>
+            <td><span th:text="${team.nombre_equipo}"> Nombre del equipo </span></td>
+            <td><span th:text="${team.direccion}"> Direccion </span></td>
+            <td><span th:text="${team.fecha_fundacion}"> Fecha de fundacion </span></td>
+     </tr>
+    <!-- </tr> --> 
+    <tr th:if="${teamId != null}">
+    		<td><span th:text="${teamId.cod_equipo}"> ID del equipo </span></td>
+            <td><span th:text="${teamId.nombre_equipo}"> Nombre del equipo </span></td>
+            <td><span th:text="${teamId.direccion}"> Direccion </span></td>
+            <td><span th:text="${teamId.fecha_fundacion}"> Fecha de fundacion </span></td>
+     	</tr>
+    </tbody>
+</table>
+	<a th:href="@{/equipo/equipos}">Equipos</a>
+   	<div class="container-fluid" id="searchID">
+    	<form class="d-flex"  th:action="@{/equipo/id}" method="post">
+      		<input class="form-control me-2" type="search" placeholder="Introduzca ID para la busqueda" aria-label="Search" name="team_id">
+      		<button class="btn btn-outline-success" type="submit">Buscar</button>
+    	</form>
+  	</div>
+  	 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
