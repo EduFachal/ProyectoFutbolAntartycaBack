@@ -1,6 +1,7 @@
 package com.antartyca.proyecto.servicesImp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -255,4 +256,36 @@ public class JugadorServiceImp implements JugadorService{
 		return jugadores;
 	}
 	*/
+	
+	public List<JugadorModel> busquedaPorGoles(int goles) {
+
+        TypedQuery<JugadorModel> query = em.createQuery("SELECT j from JugadorModel j where j.goles >= '" +  goles + "' ", JugadorModel.class);
+           List<JugadorModel> golesJugadores= query.getResultList();
+           return golesJugadores;
+   }
+
+	public List<JugadorModel> buscarJugadoresNombre(String nombre) {
+        TypedQuery<JugadorModel> query = em.createQuery("SELECT j from JugadorModel j where j.nombre like '" +  nombre + "%' ", JugadorModel.class);
+        return query.getResultList();
+	}
+	
+	// Consulta CriteriaQuery
+    public List<JugadorModel> buscarEntreFechas(Date fechaIn, Date fechaFin) {
+    	System.out.println(fechaIn);
+    	System.out.println(fechaFin);
+        // Creamos el builder
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+        // Creamos la query
+        CriteriaQuery<JugadorModel> criteriaQuery = criteriaBuilder.createQuery(JugadorModel.class);
+
+        // Creamos el root
+        Root<JugadorModel> root = criteriaQuery.from(JugadorModel.class);
+        
+        criteriaQuery.select(root).where(criteriaBuilder.between(root.get("fecha_nacimiento"), fechaIn, fechaFin));
+
+        TypedQuery<JugadorModel> q = em.createQuery(criteriaQuery);
+        
+        return q.getResultList();
+    }
 }

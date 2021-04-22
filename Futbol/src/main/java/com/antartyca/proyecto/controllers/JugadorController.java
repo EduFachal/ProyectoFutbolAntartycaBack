@@ -1,11 +1,13 @@
 package com.antartyca.proyecto.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +75,8 @@ public class JugadorController {
 		return jugadorServ.getById(id);
 	}
 	
+	
+	
 	@PostMapping(value = "/jugadorfilter")
 	public List<JugadorModel> getByFilter(@RequestBody JugadorModel jugador){
 		return jugadorServ.getByFilter(jugador);
@@ -106,4 +110,23 @@ public class JugadorController {
 		jugadores = jugadorServ.buscarPorPuestoYGoles(puesto, goles);
 		return jugadores;
 	}
+	
+	@GetMapping(value = "/busquedaPorGoles/{goles}")
+    public List<JugadorModel> busquedaPorGoles(@PathVariable(value = "goles") int goles){
+        List <JugadorModel> jugadores = new ArrayList<JugadorModel>();
+
+        jugadores = jugadorServ.busquedaPorGoles(goles);
+        return jugadores;
+    }
+	
+	@GetMapping(value = "/buscarJugadores/{nombre}")
+	public List<JugadorModel> buscarJugadoresNombre(@PathVariable(value = "nombre") String nombre){
+        return jugadorServ.buscarJugadoresNombre(nombre);
+
+	}
+	
+    @GetMapping(value = "/buscarEntreFechas/{fechaIn}/{fechaFin}")
+    public List<JugadorModel> buscarEntreFechas(@PathVariable(value = "fechaIn")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaIn,@PathVariable(value = "fechaFin")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin){
+        return  jugadorServ.buscarEntreFechas(fechaIn, fechaFin);
+    }
 }

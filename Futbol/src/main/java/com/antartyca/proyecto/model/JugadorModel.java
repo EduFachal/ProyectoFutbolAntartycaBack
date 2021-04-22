@@ -1,5 +1,7 @@
 package com.antartyca.proyecto.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -60,6 +62,18 @@ public class JugadorModel {
 	@Column(nullable = false)
 	@JsonProperty(value ="activo")
 	private Boolean activo = true;
+	
+	@Column
+    @JsonProperty(value ="fecha_nacimiento")
+    private Date fecha_nacimiento;
+	
+	public Date getFecha_nacimiento() {
+        return fecha_nacimiento;
+    }
+
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
 	
 	@ManyToOne//(cascade = CascadeType.ALL)
 	@JoinColumn(name="cod_equipo")
@@ -151,8 +165,9 @@ public class JugadorModel {
 
 	@Override
 	public String toString() {
-		return "JugadorModel [cod_jugador=" + cod_jugador + ", nombre=" + nombre + ", telefono=" + telefono
-				+ ", puesto=" + puesto + ", equipo=" + equipo + "]";
+	      return "JugadorModel [cod_jugador=" + cod_jugador + ", nombre=" + nombre + ", telefono=" + telefono
+	                + ", puesto=" + puesto + ", goles=" + goles + ", altura=" + altura + ", fecha_nacimiento="
+	                + fecha_nacimiento + ", tarjetas=" + tarjetas + ", activo=" + activo + ", equipo=" + equipo + "]";
 	}
 	
 }
