@@ -1,9 +1,15 @@
 package com.antartyca.proyecto.controllers;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +34,7 @@ import com.antartyca.proyecto.model.EquipoModel;
 import com.antartyca.proyecto.model.JugadorModel;
 import com.antartyca.proyecto.model.JugadorSearchRequestModel;
 import com.antartyca.proyecto.services.JugadorService;
+import com.antartyca.proyecto.servicesImp.JugadorExcelExporter;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -69,7 +76,19 @@ public class JugadorController {
 	public List<JugadorModel> getAllEquipos(){
 		return jugadorServ.getAllPlayers();
 	}
-		
+	
+	/*@GetMapping(value = "/jugadores/{term}")
+	public List<JugadorModel> getAllEquipos(@PathVariable("term") String term){
+		List <JugadorModel> jugadoresCon = new ArrayList<>();
+		List <JugadorModel> jugadores = jugadorServ.getAllPlayers();
+		for (int i = 0; i < jugadores.size(); i++) {
+			if(jugadores.get(i).getNombre().contains(term)) {
+				jugadoresCon.add(jugadores.get(i));
+			}
+		}
+		return jugadoresCon;
+	}
+		*/
 	@GetMapping(value = "/jugadores/{id}")
 	public JugadorModel getById(@PathVariable("id") Integer id){
 		return jugadorServ.getById(id);
@@ -108,6 +127,7 @@ public class JugadorController {
 		List <JugadorModel> jugadores = new ArrayList<JugadorModel>();
 		
 		jugadores = jugadorServ.buscarPorPuestoYGoles(puesto, goles);
+
 		return jugadores;
 	}
 	
@@ -128,5 +148,22 @@ public class JugadorController {
     @GetMapping(value = "/buscarEntreFechas/{fechaIn}/{fechaFin}")
     public List<JugadorModel> buscarEntreFechas(@PathVariable(value = "fechaIn")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaIn,@PathVariable(value = "fechaFin")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin){
         return  jugadorServ.buscarEntreFechas(fechaIn, fechaFin);
+    }
+    
+    @GetMapping("/busquedaPorGoles/{goles}/export/excel")
+    public void exportToExcel(HttpServletResponse response, @PathVariable(value = "goles") int goles) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateTime = dateFormatter.format(new Date(2021-4-22));
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=jugadores_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        List<JugadorModel> listJugadores = jugadorServ.busquedaPorGoles(goles);
+
+        JugadorExcelExporter excelExporter = new JugadorExcelExporter(listJugadores);
+
+        excelExporter.export(response);
     }
 }

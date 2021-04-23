@@ -22,7 +22,6 @@ public interface JugadorService {
 	public List<JugadorModel> busquedaPorGoles(int goles);
 	
 	public List<JugadorModel> searchPlayer(JugadorSearchRequestModel jugadorSearchRequestModel);
-	//public List<JugadorModel> busquedaPorGoles(int goles);
 	
 	public List<JugadorModel> buscarPorPuestoYGoles(String puesto, int goles);
 	public List<JugadorModel> buscarJugadoresNombre(String nombre);

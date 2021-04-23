@@ -218,10 +218,9 @@ public class JugadorServiceImp implements JugadorService{
 		// Creamos el root
 		Root<JugadorModel> root = criteriaQuery.from(JugadorModel.class);
 		
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("puesto"), puesto), criteriaBuilder.equal(root.get("goles"), goles));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("puesto"), puesto), criteriaBuilder.equal(root.get("goles"),(Integer) goles));
 		
 		TypedQuery<JugadorModel> q = em.createQuery(criteriaQuery);
-		
 		return q.getResultList();
 	}
 
